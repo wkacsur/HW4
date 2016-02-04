@@ -9,6 +9,15 @@ __attribute__ ((weak))
 int compare(int a, int b) {
 	    return a - b;
 }
+__attribute__((weak))
+int compare_p(const void *a, const void *b)
+{
+	const int *aa, *bb;
+	aa = a;
+	bb = b;
+	return *bb < *aa;
+}
+
 
 void bubble_sort(int *numbers, unsigned count) {
 	int temp;
@@ -57,5 +66,11 @@ void insertion_sort(int *numbers, unsigned count) {
 	memcpy(numbers, new, count*sizeof(int));
 }
 
-sorting_fn sorting_fns[] = {bubble_sort, insertion_sort, NULL};
+void qsort_373(int *numbers, unsigned count)
+{
+	if (*numbers)
+		qsort(numbers, count, sizeof(int), compare_p);
+}
+
+sorting_fn sorting_fns[] = {bubble_sort, insertion_sort, qsort_373, NULL};
 
